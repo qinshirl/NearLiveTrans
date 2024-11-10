@@ -1,0 +1,2 @@
+Nvidia docker container toolkit is required to install to run this container with gpu supports
+see details for installation on https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
