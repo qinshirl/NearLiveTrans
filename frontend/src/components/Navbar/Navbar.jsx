@@ -21,6 +21,8 @@ const Navbar = () => {
   useEffect(() => {
     if (web_location.pathname === '/') {
       setMenu("home")
+    } else if (web_location.pathname === '/dropbox') {
+      setMenu("dropbox")
     } else {
       setMenu("")
     }
@@ -34,16 +36,12 @@ const Navbar = () => {
         <Link to='/dropbox' onClick={() => setMenu("dropbox")} className={menu === "dropbox" ? "active" : ""} >Dropbox</Link>
       </ul>
       <div className="navbar-right">
-        <img src={assets.search_icon} alt="search icon" />
-        <div className="navbar-search-icon">
-          <Link to='/cart' onClick={() => setMenu("")}></Link>
-        </div>
         <div className='navbar-profile'>
-          <img src='../../assets/profile_icon.png' alt="profile icon" />
+          <img src={assets.profile_icon} alt="profile icon" />
           <ul className='nav-profile-dropdown'>
             <li><img src={assets.profile_icon} alt="" /><p>Setting</p></li>
             <hr />
-            <li><img src='../../assets/logout_icon.png' alt="" /><p>Logout</p></li>
+            <li><img src={assets.logout} alt="" /><p>Logout</p></li>
           </ul>
         </div>
       </div>

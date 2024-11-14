@@ -1,5 +1,6 @@
 .navbar {
   display: flex;
+  width: 100%;
   padding: 20px 0;
   align-items: center;
 }
@@ -20,9 +21,8 @@
 .navbar .navbar-right {
   display: flex;
   align-items: center;
-  justify-content: end;
-  padding-left: 60%;
-  gap: 40px;
+  justify-content: center;
+  margin-left: auto;
 }
 
 .navbar button {
@@ -49,18 +49,8 @@
   border-bottom: 2px solid #49557e;
 }
 
-.navbar-search-icon {
-  position: relative;
-}
-
-.navbar-search-icon .dot {
-  position: absolute;
-  min-width: 10px;
-  min-height: 10px;
-  background-color: tomato;
-  border-radius: 5px;
-  top: -8px;
-  right: -8px;
+.navbar-right img {
+  width: 20px;
 }
 
 @media (max-width: 1050px) {
