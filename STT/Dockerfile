@@ -39,7 +39,7 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Expose port
-EXPOSE 5001
+EXPOSE 8080
 
 # Run the application
 CMD ["python", "app.py"]

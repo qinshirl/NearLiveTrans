@@ -11,7 +11,7 @@ device = "cuda"
 
 app = Flask(__name__)
 CORS(app) 
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/')
@@ -84,12 +84,19 @@ def upload_form():
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
+  # data = request.get_json()
+  # task_id = data.get('task_id')
+  # file_id = data.get('file_id')
+  # file_path = os.path.join(PROCESS, task_id, file_id)
   if 'file' not in request.files:
     return jsonify({"error": "No file part"}), 400
 
   file = request.files['file']
   if file.filename == '':
     return jsonify({"error": "No selected file"}), 400
+  
+  source_language = request.form.get('source_language')
+  print(f"Transcribing audio in language: {source_language}")
 
   # Save the file to the specified upload folder
   file_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -101,12 +108,17 @@ def transcribe():
   device = "cuda" 
   compute_type = "int8"
   model_dir = "/path/"
-  model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_dir)
+  if source_language == 'auto':
+    model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_dir)
+  else:
+    model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_dir, language=source_language)
   batch_size = 16
   result = model.transcribe(audio, batch_size=batch_size)
   # print(result["segments"]) # before alignment
-  # model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
-  # result = whisperx.align(result["segments"], model_a, metadata, audio, device, return_char_alignments=False)
+  if source_language != 'auto':
+    result["language"] = source_language
+  model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
+  result = whisperx.align(result["segments"], model_a, metadata, audio, device, return_char_alignments=False)
   # print(result["segments"]) # after alignment
   # diarize_model = whisperx.DiarizationPipeline(use_auth_token="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", device=device)
   # diarize_segments = diarize_model(audio)
@@ -116,5 +128,5 @@ def transcribe():
   return jsonify(result["segments"])
 
 if __name__ == '__main__':
-  app.run(host="0.0.0.0", port=5001)
+  app.run(host="0.0.0.0", port=8080)
   

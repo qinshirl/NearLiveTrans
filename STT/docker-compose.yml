@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile  # Specify the Dockerfile name if it’s different
     image: my-pytorch-app:latest
     ports:
-      - "5100:5001"  # Map host port 5001 to container port 5001
+      - "8080:8080"  # Map host port 5001 to container port 5001
     volumes:
       - ./uploads:/uploads # Mount the uploads directory to the container
     deploy:
